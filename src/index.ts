@@ -1,6 +1,10 @@
 import express, { Application, Response, Request } from 'express';
 import cors from 'cors';
 
+import connect from './schema';
+import indexRouter from '@src/routes';
+import authRouter from '@src/routes/auth';
+
 const app: Application = express();
 
 const PORT = 5000;
@@ -12,9 +16,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('conneted');
-});
+connect();
+
+app.use('/', indexRouter);
+app.use('/auth', authRouter);
 
 app.listen(PORT, () => {
   console.log(`The Express server is listening at port : ${PORT}`);
