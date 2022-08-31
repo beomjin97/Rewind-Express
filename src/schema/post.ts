@@ -9,14 +9,22 @@ const postSchema = new Schema<post>({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-  },
-  imgUrl: [String],
-  like: {
-    type: [String],
     required: true,
   },
-  tags: [String],
-  comment: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  imgUrl: String,
+  like: {
+    type: [String],
+    default: [],
+  },
+  tags: {
+    type: [String],
+    default: [],
+  },
+  comment: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Comment',
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

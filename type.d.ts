@@ -6,7 +6,7 @@ export interface post {
   imgUrl: string[];
   tags: string[];
   like: Schema.Types.ObjectId[];
-  comment: string[];
+  comment: Schema.Types.ObjectId[];
   createdAt: Date;
   updatedAt?: Date;
 }
