@@ -12,7 +12,19 @@ router.get('/', async (req: Request, res: Response) => {
     let posts = await Post.find()
       .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
       .populate({ path: 'author', select: ['userName', '_id'] });
-    res.json(posts);
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(404).json(error);
+  }
+});
+
+router.get('/:postId', async (req: Request, res: Response) => {
+  const { postId } = req.params;
+  try {
+    const post = await Post.findById(postId)
+      .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
+      .populate({ path: 'author', select: ['userName', '_id'] });
+    res.status(200).json(post);
   } catch (error) {
     res.status(404).json(error);
   }
