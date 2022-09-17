@@ -21,14 +21,17 @@ const userSchema = new Schema<user>({
   following: {
     type: [Schema.Types.ObjectId],
     default: [],
+    ref: 'User',
   },
   followedBy: {
     type: [Schema.Types.ObjectId],
     default: [],
+    ref: 'User',
   },
   likes: {
     type: [Schema.Types.ObjectId],
     default: [],
+    ref: 'Post',
   },
 });
 

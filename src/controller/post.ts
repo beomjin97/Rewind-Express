@@ -38,7 +38,7 @@ export const createPost = async (req: Request, res: Response) => {
       author,
       content,
       imgUrl: files,
-      tags: tags.split(','),
+      tags,
     });
     res.status(201).json(newPost);
   } catch (error) {
