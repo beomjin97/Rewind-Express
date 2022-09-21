@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 import { user } from '../../type';
 
 const userSchema = new Schema<user>({
@@ -19,7 +19,7 @@ const userSchema = new Schema<user>({
     required: true,
   },
   following: {
-    type: [Schema.Types.ObjectId],
+    type: [Types.ObjectId],
     default: [],
     ref: 'User',
   },
