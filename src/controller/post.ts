@@ -47,9 +47,26 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
-export const updatePost = () => {};
+export const updatePost = async (req: Request, res: Response) => {
+  const postId = req.params.postId;
+  const { content, files, tags } = req.body;
+  try {
+    await Post.findByIdAndUpdate(postId, { $set: { content, imgUrl: files, tags } }, { new: true });
+    res.json({ message: 'Post updated successfully' });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const deletePost = () => {};
+export const deletePost = async (req: Request, res: Response) => {
+  const postId = req.params.postId;
+  try {
+    await Post.findByIdAndRemove(postId);
+    res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const likePost = async (req: Request, res: Response) => {
   //@ts-ignore
