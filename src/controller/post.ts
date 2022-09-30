@@ -3,10 +3,13 @@ import { Request, Response } from 'express';
 import Post from '@src/schema/post';
 import Comment from '@src/schema/comment';
 import User from '@src/schema/user';
+import Tag from '@src/schema/tag';
 
 export const getPosts = async (req: Request, res: Response) => {
+  // const { page } = req.params;
   try {
-    let posts = await Post.find()
+    // const posts = await Post.find().skip(Number(page) - 1).limit(10)
+    const posts = await Post.find()
       .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
       .populate({ path: 'author', select: ['userName', '_id'] });
     res.status(200).json(posts);
@@ -29,6 +32,12 @@ export const getPostByPostId = async (req: Request, res: Response) => {
 
 export const getPostsByuserId = () => {};
 
+export const getPostTags = async (req: Request, res: Response) => {
+  const tags = await Tag.find().limit(10).sort({ count: -1 });
+  const tagName = tags.map((tag) => tag.name);
+  res.json(tagName);
+};
+
 export const createPost = async (req: Request, res: Response) => {
   //@ts-ignore
   const author = req.userId;
@@ -39,6 +48,21 @@ export const createPost = async (req: Request, res: Response) => {
       content,
       imgUrl: files,
       tags,
+    });
+    tags.forEach(async (tag: string) => {
+      const prevTag = await Tag.findOne({ name: tag });
+      if (prevTag) {
+        await Tag.findOneAndUpdate(
+          { name: tag },
+          {
+            $inc: {
+              count: 1,
+            },
+          }
+        );
+      } else {
+        await Tag.create({ name: tag });
+      }
     });
     res.status(201).json(newPost);
   } catch (error) {

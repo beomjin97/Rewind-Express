@@ -28,3 +28,8 @@ export interface user {
   followedBy: Schema.Types.ObjectId[];
   likes: Schema.Types.ObjectId[];
 }
+
+export interface tag {
+  name: string;
+  count: number;
+}

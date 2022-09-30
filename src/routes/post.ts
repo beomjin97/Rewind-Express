@@ -8,6 +8,7 @@ import {
   getPostsByuserId,
   deletePost,
   updatePost,
+  getPostTags,
 } from '@src/controller/post';
 
 import auth from '@src/middleware/auth';
@@ -15,8 +16,9 @@ import auth from '@src/middleware/auth';
 const router = Router();
 
 router.get('/', getPosts);
+router.get('/tags', getPostTags);
 router.get('/:postId', getPostByPostId);
-router.get('/:userId', auth, getPostsByuserId);
+// router.get('/:userId', auth, getPostsByuserId);
 
 router.post('/', auth, createPost);
 router.post('/:postId/comment', auth, commentPost);
