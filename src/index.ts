@@ -6,6 +6,7 @@ import indexRouter from '@src/routes';
 import authRouter from '@src/routes/auth';
 import postRouter from '@src/routes/post';
 import userRouter from '@src/routes/user';
+import searchRouter from '@src/routes/search';
 
 const app: Application = express();
 
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
+app.use('/search', searchRouter);
 
 app.listen(PORT, () => {
   console.log(`The Express server is listening at port : ${PORT}`);
