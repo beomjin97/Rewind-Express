@@ -18,7 +18,6 @@ const router = Router();
 router.get('/', getPosts);
 router.get('/tags', getPostTags);
 router.get('/:postId', getPostByPostId);
-// router.get('/:userId', auth, getPostsByuserId);
 
 router.post('/', auth, createPost);
 router.post('/:postId/comment', auth, commentPost);

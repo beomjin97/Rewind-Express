@@ -6,13 +6,20 @@ import User from '@src/schema/user';
 import Tag from '@src/schema/tag';
 
 export const getPosts = async (req: Request, res: Response) => {
-  // const { page } = req.params;
+  const { tag } = req.query;
   try {
     // const posts = await Post.find().skip(Number(page) - 1).limit(10)
-    const posts = await Post.find()
-      .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
-      .populate({ path: 'author', select: ['userName', '_id'] });
-    res.status(200).json(posts);
+    if (tag) {
+      const posts = await Post.find({ tags: { $in: [tag] } })
+        .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
+        .populate({ path: 'author', select: ['userName', '_id'] });
+      res.status(200).json(posts);
+    } else {
+      const posts = await Post.find()
+        .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
+        .populate({ path: 'author', select: ['userName', '_id'] });
+      res.status(200).json(posts);
+    }
   } catch (error) {
     res.status(404).json(error);
   }
@@ -75,7 +82,30 @@ export const updatePost = async (req: Request, res: Response) => {
   const postId = req.params.postId;
   const { content, files, tags } = req.body;
   try {
-    await Post.findByIdAndUpdate(postId, { $set: { content, imgUrl: files, tags } }, { new: true });
+    const post = await Post.findByIdAndUpdate(postId, { $set: { content, imgUrl: files, tags } });
+    post?.tags.forEach(async (tag) => {
+      await Tag.findOneAndUpdate(
+        { name: tag },
+        {
+          $inc: { count: -1 },
+        }
+      );
+    });
+    tags.forEach(async (tag: string) => {
+      const prevTag = await Tag.findOne({ name: tag });
+      if (prevTag) {
+        await Tag.findOneAndUpdate(
+          { name: tag },
+          {
+            $inc: {
+              count: 1,
+            },
+          }
+        );
+      } else {
+        await Tag.create({ name: tag });
+      }
+    });
     res.json({ message: 'Post updated successfully' });
   } catch (error) {
     console.log(error);
@@ -85,7 +115,19 @@ export const updatePost = async (req: Request, res: Response) => {
 export const deletePost = async (req: Request, res: Response) => {
   const postId = req.params.postId;
   try {
-    await Post.findByIdAndRemove(postId);
+    const post = await Post.findByIdAndDelete(postId);
+    post?.comment.forEach(async (id) => {
+      await Comment.findByIdAndRemove(id);
+    });
+    post?.tags.forEach(async (tag) => {
+      await Tag.findOneAndUpdate(
+        { name: tag },
+        {
+          $inc: { count: -1 },
+        }
+      );
+    });
+
     res.json({ message: 'Post deleted successfully' });
   } catch (error) {
     console.log(error);
