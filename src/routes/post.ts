@@ -23,8 +23,8 @@ router.post('/', auth, createPost);
 router.post('/:postId/comment', auth, commentPost);
 router.post('/:postId/like', auth, likePost);
 
-router.patch('/:postId', updatePost);
+router.patch('/:postId', auth, updatePost);
 
-router.delete('/:postId', deletePost);
+router.delete('/:postId', auth, deletePost);
 
 export default router;
