@@ -10,7 +10,7 @@ import searchRouter from '@src/routes/search';
 
 const app: Application = express();
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
