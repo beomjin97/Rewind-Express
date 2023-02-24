@@ -2,11 +2,10 @@ import express, { Application, Response, Request } from 'express';
 import cors from 'cors';
 
 import connect from './schema';
-import indexRouter from '@src/routes';
-import authRouter from '@src/routes/auth';
-import postRouter from '@src/routes/post';
-import userRouter from '@src/routes/user';
-import searchRouter from '@src/routes/search';
+import authRouter from './routes/auth';
+import postRouter from './routes/post';
+import userRouter from './routes/user';
+import searchRouter from './routes/search';
 
 const app: Application = express();
 

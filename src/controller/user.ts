@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express';
-import User from '@src/schema/user';
-import Post from '@src/schema/post';
+import { Request, Response } from 'express';
+import User from '../schema/user';
+import Post from '../schema/post';
 import { Schema } from 'mongoose';
 
 export const getUser = async (req: Request, res: Response) => {

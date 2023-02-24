@@ -9,9 +9,9 @@ import {
   deletePost,
   updatePost,
   getPostTags,
-} from '@src/controller/post';
+} from '../controller/post';
 
-import auth from '@src/middleware/auth';
+import auth from '../middleware/auth';
 
 const router = Router();
 

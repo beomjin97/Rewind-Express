@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
-import Post from '@src/schema/post';
-import Comment from '@src/schema/comment';
-import User from '@src/schema/user';
-import Tag from '@src/schema/tag';
+import Post from '../schema/post';
+import Comment from '../schema/comment';
+import User from '../schema/user';
+import Tag from '../schema/tag';
 
 export const getPosts = async (req: Request, res: Response) => {
   const { tag } = req.query;

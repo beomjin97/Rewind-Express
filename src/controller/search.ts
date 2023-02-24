@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '@src/schema/user';
+import User from '../schema/user';
 
 export const searchUser = async (req: Request, res: Response) => {
   const { user } = req.query;
