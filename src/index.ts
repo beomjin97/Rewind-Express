@@ -20,13 +20,14 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: false }));
 
+app.use('/api/uploads', express.static('uploads'));
+
 connect();
 
-app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/post', postRouter);
-app.use('/user', userRouter);
-app.use('/search', searchRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/post', postRouter);
+app.use('/api/user', userRouter);
+app.use('/api/search', searchRouter);
 
 app.listen(PORT, () => {
   console.log(`The Express server is listening at port : ${PORT}`);
