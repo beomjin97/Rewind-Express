@@ -6,7 +6,7 @@ import User from '../schema/user';
 import Tag from '../schema/tag';
 
 export const getPosts = async (req: Request, res: Response) => {
-  const { tag } = req.query;
+  const { tag, page } = req.query;
   try {
     // const posts = await Post.find().skip(Number(page) - 1).limit(10)
     if (tag) {
@@ -16,6 +16,9 @@ export const getPosts = async (req: Request, res: Response) => {
       res.status(200).json(posts);
     } else {
       const posts = await Post.find()
+        .skip((Number(page) - 1) * 5)
+        .limit(5)
+        .sort({ _id: -1 })
         .populate({ path: 'comment', populate: { path: 'author', select: ['userName', '_id'] } })
         .populate({ path: 'author', select: ['userName', '_id'] });
       res.status(200).json(posts);
