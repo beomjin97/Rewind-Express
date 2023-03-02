@@ -59,9 +59,10 @@ export const createPost = async (req: Request, res: Response) => {
       author,
       content,
       imgUrl: files === undefined ? [] : files.map((file) => file.filename),
-      tags,
+      tags: JSON.parse(tags),
     });
-    tags.forEach(async (tag: string) => {
+
+    JSON.parse(tags).forEach(async (tag: string) => {
       const prevTag = await Tag.findOne({ name: tag });
       if (prevTag) {
         await Tag.findOneAndUpdate(
