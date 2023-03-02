@@ -10,7 +10,7 @@ import {
   updatePost,
   getPostTags,
 } from '../controller/post';
-import upload from '../../src/multer';
+import upload from '../multer/index';
 import auth from '../middleware/auth';
 
 const router = Router();
