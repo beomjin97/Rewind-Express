@@ -8,7 +8,7 @@ const connect = () => {
   const username = 'uouProject';
   const password = process.env.MONGO_PASSWORD;
   const uri = `mongodb+srv://${username}:${password}@cluster0.jv9pc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-  mongoose.connect(uri, { dbName: 'rewind-express' }, (error) => {
+  mongoose.connect(uri, { dbName: 'rewind' }, (error) => {
     if (error) {
       console.log('mongoDB connect error', error);
     } else {
