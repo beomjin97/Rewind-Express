@@ -10,7 +10,7 @@ import {
   updatePost,
   getPostTags,
 } from '../controller/post';
-
+import upload from 'src/multer';
 import auth from '../middleware/auth';
 
 const router = Router();
@@ -19,11 +19,11 @@ router.get('/', getPosts);
 router.get('/tags', getPostTags);
 router.get('/:postId', getPostByPostId);
 
-router.post('/', auth, createPost);
+router.post('/', auth, upload.array('photoFiles', 5), createPost);
 router.post('/:postId/comment', auth, commentPost);
 router.post('/:postId/like', auth, likePost);
 
-router.patch('/:postId', auth, updatePost);
+router.patch('/:postId', auth, upload.array('photoFiles', 5), updatePost);
 
 router.delete('/:postId', auth, deletePost);
 

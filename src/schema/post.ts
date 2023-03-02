@@ -11,7 +11,10 @@ const postSchema = new Schema<post>({
     ref: 'User',
     required: true,
   },
-  imgUrl: String,
+  imgUrl: {
+    type: [String],
+    default: [],
+  },
   like: {
     type: [String],
     default: [],

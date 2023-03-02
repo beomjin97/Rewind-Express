@@ -4,6 +4,7 @@ import Post from '../schema/post';
 import Comment from '../schema/comment';
 import User from '../schema/user';
 import Tag from '../schema/tag';
+import { Schema } from 'mongoose';
 
 export const getPosts = async (req: Request, res: Response) => {
   const { tag, page } = req.query;
@@ -49,14 +50,15 @@ export const getPostTags = async (req: Request, res: Response) => {
 };
 
 export const createPost = async (req: Request, res: Response) => {
+  const { content, tags } = req.body;
   //@ts-ignore
-  const author = req.userId;
-  const { files, content, tags } = req.body;
+  const author = req.userId as Schema.Types.ObjectId;
+  const files = req.files as Express.Multer.File[];
   try {
     const newPost = await Post.create({
       author,
       content,
-      imgUrl: files,
+      imgUrl: files === undefined ? [] : files.map((file) => file.filename),
       tags,
     });
     tags.forEach(async (tag: string) => {
