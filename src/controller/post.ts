@@ -58,7 +58,7 @@ export const createPost = async (req: Request, res: Response) => {
     const newPost = await Post.create({
       author,
       content,
-      imgUrl: files === undefined ? [] : files.map((file) => file.filename),
+      imgUrl: files === undefined ? [] : files.map((file) => `http://13.112.212.213/api/uploads/${file.filename}`),
       tags: JSON.parse(tags),
     });
 
@@ -90,7 +90,11 @@ export const updatePost = async (req: Request, res: Response) => {
   const files = req.files as Express.Multer.File[];
   try {
     const post = await Post.findByIdAndUpdate(postId, {
-      $set: { content, imgUrl: files === undefined ? [] : files.map((file) => file.filename), tags: JSON.parse(tags) },
+      $set: {
+        content,
+        imgUrl: files === undefined ? [] : files.map((file) => `http://13.112.212.213/api/uploads/${file.filename}`),
+        tags: JSON.parse(tags),
+      },
     });
     post?.tags.forEach(async (tag) => {
       await Tag.findOneAndUpdate(
