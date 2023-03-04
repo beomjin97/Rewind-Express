@@ -86,9 +86,12 @@ export const createPost = async (req: Request, res: Response) => {
 
 export const updatePost = async (req: Request, res: Response) => {
   const postId = req.params.postId;
-  const { content, files, tags } = req.body;
+  const { content, tags } = req.body;
+  const files = req.files as Express.Multer.File[];
   try {
-    const post = await Post.findByIdAndUpdate(postId, { $set: { content, imgUrl: files, tags } });
+    const post = await Post.findByIdAndUpdate(postId, {
+      $set: { content, imgUrl: files === undefined ? [] : files.map((file) => file.filename), tags: JSON.parse(tags) },
+    });
     post?.tags.forEach(async (tag) => {
       await Tag.findOneAndUpdate(
         { name: tag },
@@ -97,7 +100,7 @@ export const updatePost = async (req: Request, res: Response) => {
         }
       );
     });
-    tags.forEach(async (tag: string) => {
+    JSON.parse(tags).forEach(async (tag: string) => {
       const prevTag = await Tag.findOne({ name: tag });
       if (prevTag) {
         await Tag.findOneAndUpdate(
