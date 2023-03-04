@@ -121,6 +121,7 @@ export const updatePost = async (req: Request, res: Response) => {
     });
     res.json({ message: 'Post updated successfully' });
   } catch (error) {
+    res.status(409).json(error);
     console.log(error);
   }
 };
