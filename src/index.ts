@@ -10,12 +10,12 @@ import searchRouter from './routes/search';
 const app: Application = express();
 
 const PORT = process.env.PORT;
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true,
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: false }));
 
