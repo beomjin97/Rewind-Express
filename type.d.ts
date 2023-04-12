@@ -7,16 +7,12 @@ export interface post {
   tags: string[];
   like: Schema.Types.ObjectId[];
   comment: Schema.Types.ObjectId[];
-  createdAt: Date;
-  updatedAt?: Date;
 }
 
 export interface comment {
   author: Schema.Types.ObjectId;
   post: Schema.Types.ObjectId;
   content: string;
-  createdAt: Date;
-  updatedAt?: Date;
 }
 
 export interface user {
@@ -27,6 +23,7 @@ export interface user {
   following: Schema.Types.ObjectId[];
   followedBy: Schema.Types.ObjectId[];
   likes: Schema.Types.ObjectId[];
+  imgUrl?: string;
 }
 
 export interface tag {
