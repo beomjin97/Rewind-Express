@@ -20,7 +20,8 @@ http://rewind.p-e.kr/
 
 ## 라이브러리 & 프레임워크
 
-Express.js based on typescript <br>
-mongoose <br>
-jsonwebtoken <br>
-bcryptjs <br>
+Express<br>
+Typescript<br>
+Mongoose <br>
+Jsonwebtoken <br>
+Bcryptjs <br>
